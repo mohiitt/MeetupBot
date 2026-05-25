@@ -14,7 +14,7 @@ if not _API_KEY:
 gmaps = googlemaps.Client(key=_API_KEY)
 
 
-def find_nearby_cafes(centroid: tuple, radius_meters: int = 5000) -> list[dict]:
+def find_nearby_cafes(centroid: tuple, radius_meters: int = 15000) -> list[dict]:
     """Return up to 10 cafes near the centroid, sorted by Google's prominence.
 
     Each cafe dict has: place_id, name, address, lat, lng, google_rating.
