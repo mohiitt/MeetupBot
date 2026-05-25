@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+slack-bolt
+slack-sdk
+googlemaps
+sqlalchemy
+psycopg2-binary
+python-dotenv
+httpx
