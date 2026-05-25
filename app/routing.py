@@ -24,7 +24,7 @@ def rank_cafes_minimax(
     cafe_list: list[dict],
     db_ratings: dict,
 ) -> list[dict]:
-    """Rank cafes by minimax fairness and return the top 3.
+    """Rank cafes by minimax fairness and return the top 5.
 
     - For each cafe, compute the MAX driving time across all employees.
     - Sort ascending by that max (lowest worst-case commute wins).
@@ -76,4 +76,4 @@ def rank_cafes_minimax(
         )
 
     scored.sort(key=lambda c: c["effective_score"])
-    return scored[:3]
+    return scored[:5]

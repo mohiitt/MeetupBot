@@ -41,3 +41,36 @@ def find_nearby_cafes(centroid: tuple, radius_meters: int = 5000) -> list[dict]:
         )
 
     return cafes
+
+
+def upsert_cafes_to_db(db, cafe_list: list[dict]) -> None:
+    """Save discovered cafes to the DB for future ratings.
+
+    Inserts new cafes and refreshes basic Google metadata for existing cafes
+    without touching accumulated internal ratings.
+    """
+    from .database import Cafe
+
+    for cafe in cafe_list:
+        existing = db.query(Cafe).filter_by(place_id=cafe["place_id"]).first()
+        if existing:
+            existing.name = cafe["name"]
+            existing.address = cafe["address"]
+            existing.lat = cafe["lat"]
+            existing.lng = cafe["lng"]
+            existing.google_rating = cafe.get("google_rating")
+            continue
+
+        db.add(
+            Cafe(
+                place_id=cafe["place_id"],
+                name=cafe["name"],
+                address=cafe["address"],
+                lat=cafe["lat"],
+                lng=cafe["lng"],
+                google_rating=cafe.get("google_rating"),
+                total_votes=0,
+            )
+        )
+
+    db.commit()
